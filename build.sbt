@@ -22,9 +22,6 @@ lazy val dogstatsd = (project in file("dogstatsd")).
     name := "metrics-dogstatsd",
     libraryDependencies ++= Seq(
       "com.indeed" % "java-dogstatsd-client" % "2.0.13"
-
-      //"org.scalatest" %% "scalatest" % "2.2.6" % "test",
-      //"org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test"
     )
   )
 
