@@ -3,6 +3,7 @@ package com.pagerduty.metrics.pdstats
 import com.pagerduty.metrics.{Event, Metrics}
 import com.timgroup.statsd.{NonBlockingStatsDClient, StatsDClient}
 
+import scala.util.{Failure, Success, Try}
 
 /**
   * This class binds the Metrics interface to the DogStatsd Java client
@@ -42,6 +43,27 @@ class DogstatsdMetrics(client: StatsDClient, standardTags: (String, String)*) ex
 
   override def count(name: String, count: Int, tags: (String, String)*): Unit =
     client.count(clean(name), count, mkTags(tags):_*)
+
+  override def time[T](name: String, tags: (String, String)*)(f: => T): T = {
+    val start = System.nanoTime()
+    val tryResult = Try(f)
+    val stop = System.nanoTime()
+    val durationMillis = ((stop - start).toDouble / 1000000).round.toInt
+
+    val generatedTags = tryResult match {
+      case Success(_) => tags ++ Map("success" -> "true")
+      case Failure(t) =>
+        tags ++ Map(
+          "success" -> "false",
+          "exceptionClass" -> t.getClass.getName
+        )
+    }
+
+    histogram(name + "_msec", durationMillis, generatedTags: _*)
+
+    tryResult.get
+  }
+
 
   override def stop() = client.stop()
 }

@@ -48,6 +48,15 @@ trait Metrics {
   def recordEvent(event: Event): Unit
 
   /**
+    * Time the provided function as the named metric, tagging success and failure automatically.
+    *
+    * @param name Name of the metric
+    * @param tags Extra tags, e.g. for DogStatsD
+    * @param f Function to time
+    */
+  def time[T](name: String, tags: (String, String)*)(f: => T): T
+
+  /**
     * If your implementation needs it, you can override this to handle a signal
     * to stop collecting metrics (close sockets, stop threads collecting gauges,
     * etcetera. The default implementation is a no-op.
