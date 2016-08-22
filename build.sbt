@@ -21,7 +21,9 @@ lazy val dogstatsd = (project in file("dogstatsd")).
   settings(
     name := "metrics-dogstatsd",
     libraryDependencies ++= Seq(
-      "com.indeed" % "java-dogstatsd-client" % "2.0.13"
+      "com.indeed" % "java-dogstatsd-client" % "2.0.13",
+      "org.scalatest" %% "scalatest" % "2.2.6" % "test",
+      "org.mockito" % "mockito-core" % "1.10.19" % "test" // because ScalaMock doesn't work with StatsDClient
     )
   )
 
