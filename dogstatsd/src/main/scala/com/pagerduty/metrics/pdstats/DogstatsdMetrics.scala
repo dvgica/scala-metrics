@@ -1,6 +1,6 @@
 package com.pagerduty.metrics.pdstats
 
-import com.pagerduty.metrics.{Event, Metrics}
+import com.pagerduty.metrics.{Event, Metrics, Stopwatch}
 import com.timgroup.statsd.{NonBlockingStatsDClient, StatsDClient}
 
 import scala.util.{Failure, Success, Try}
@@ -45,10 +45,9 @@ class DogstatsdMetrics(client: StatsDClient, standardTags: (String, String)*) ex
     client.count(clean(name), count, mkTags(tags):_*)
 
   override def time[T](name: String, tags: (String, String)*)(f: => T): T = {
-    val start = System.nanoTime()
+    val stopwatch = Stopwatch.start()
     val tryResult = Try(f)
-    val stop = System.nanoTime()
-    val durationMillis = ((stop - start).toDouble / 1000000).round.toInt
+    val durationMillis = stopwatch.elapsed().toMillis.toInt
 
     val generatedTags = tryResult match {
       case Success(_) => tags ++ Map("success" -> "true")
