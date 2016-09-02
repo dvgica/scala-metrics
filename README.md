@@ -28,6 +28,5 @@ Release
 
 Follow these steps to release a new version:
 - Update version.sbt in your PR
-- Update CHANGELOG.md in your PR
 - When the PR is approved, merge it to master, and delete the branch
 - Travis will run all tests, publish to Artifactory, and create a new version tag in Github
