@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/PagerDuty/scala-metrics.svg?branch=master)](https://travis-ci.org/PagerDuty/scala-metrics)
+
 Metrics library
 ===============
 
@@ -19,4 +21,13 @@ This work is licensed under the [Apache Software License](https://www.apache.org
 Contributing
 ============
 
-Fork, hack, submit pull request. We will get back to you as soon as possible.
+Fork, hack, submit pull request. We will get back to you as soon as possible. Promise :)
+
+Release
+=======
+
+Follow these steps to release a new version:
+- Update version.sbt in your PR
+- Update CHANGELOG.md in your PR
+- When the PR is approved, merge it to master, and delete the branch
+- Travis will run all tests, publish to Artifactory, and create a new version tag in Github
