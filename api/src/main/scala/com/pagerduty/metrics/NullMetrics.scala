@@ -7,6 +7,7 @@ package com.pagerduty.metrics
 trait NoopMetrics extends Metrics {
   override def histogram(name: String, value: Int, tags: (String, String)*): Unit = {}
   override def recordEvent(event: Event): Unit = {}
+  override def recordGauge(name: String, count: Long, tags: (String, String)*): Unit = {}
   override def count(name: String, count: Int, tags: (String, String)*): Unit = {}
   override def time[T](name: String, tags: (String, String)*)(f: => T): T = f
 }

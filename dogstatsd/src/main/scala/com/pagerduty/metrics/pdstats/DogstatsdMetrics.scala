@@ -41,6 +41,10 @@ class DogstatsdMetrics(client: StatsDClient, standardTags: (String, String)*) ex
   override def recordEvent(event: Event): Unit =
     client.recordEvent(convertEvent(event))
 
+  override def recordGauge(name: String, value: Long, tags: (String, String)*): Unit = {
+    client.gauge(clean(name), value, mkTags(tags):_*)
+  }
+
   override def count(name: String, count: Int, tags: (String, String)*): Unit =
     client.count(clean(name), count, mkTags(tags):_*)
 

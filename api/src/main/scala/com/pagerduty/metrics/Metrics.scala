@@ -47,6 +47,17 @@ trait Metrics {
     */
   def recordEvent(event: Event): Unit
 
+
+  /**
+   * Records the current reading of a gauge, which represents a point-in-time
+   * reading of a measurable thing.
+   *
+   * @param name Name of the metric.
+   * @param value The current gauge value.
+   * @param tags Extra tags
+   */
+  def recordGauge(name: String, value: Long, tags: (String, String)*): Unit
+
   /**
     * Time the provided function as the named metric, tagging success and failure automatically.
     *
