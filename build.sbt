@@ -6,13 +6,27 @@ lazy val sharedSettings = Seq(
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   bintrayOrganization := Some("pagerduty"),
   bintrayRepository := "oss-maven",
-  publishMavenStyle := true
+  publishMavenStyle := true,
+  libraryDependencies ++= Seq(
+    "org.scalatest" %% "scalatest" % "2.2.6" % Test,
+    "org.scalamock" %% "scalamock-scalatest-support" % "3.5.0" % Test
+  )
 )
 
 lazy val api = (project in file("api")).
   settings(sharedSettings: _*).
   settings(
     name := "metrics-api"
+  )
+
+lazy val gauge = (project in file("gauge")).
+  dependsOn(api).
+  settings(sharedSettings: _*).
+  settings(
+    name := "metrics-gauge",
+    libraryDependencies ++= Seq(
+      "org.slf4j" % "slf4j-api" % "1.7.25"
+    )
   )
 
 lazy val dogstatsd = (project in file("dogstatsd")).
@@ -22,16 +36,14 @@ lazy val dogstatsd = (project in file("dogstatsd")).
     name := "metrics-dogstatsd",
     libraryDependencies ++= Seq(
       "com.indeed" % "java-dogstatsd-client" % "2.0.13",
-      "org.scalatest" %% "scalatest" % "2.2.6" % "test",
       "org.mockito" % "mockito-core" % "1.10.19" % "test" // because ScalaMock doesn't work with StatsDClient
     )
   )
 
-lazy val root = Project(
-  id = "root",
-  base = file("."),
-  aggregate = Seq(api, dogstatsd),
-  settings = Project.defaultSettings ++ Seq(
+lazy val root = Project(id = "root", base = file(".")).
+  dependsOn(api, gauge, dogstatsd).
+  aggregate(api, gauge, dogstatsd).
+  settings(Defaults.coreDefaultSettings ++ Seq(
     publishLocal := {},
     publish := {},
     publishArtifact := false
