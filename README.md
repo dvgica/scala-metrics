@@ -10,6 +10,12 @@ Also, it's probably time for a generic metrics API to do to metrics what SLF4J's
 logging. For now, this API does not aspire to be it - it's very Dogstatsd-oriented, because
 that's what we use, but we didn't want people using our libraries to get locked in.
 
+## Sub-Modules
+
+- metrics-api is the generic API artifact
+- metrics-dogstatsd is the DataDog implementation of the API
+- metrics-gauge provides `GaugeReporter`, a class which samples `Gauge`s and reports the result
+
 ## Installation
 
 - This set of libraries is published to PagerDuty Bintray OSS Maven repository. Add it to your resolvers (PD developers can skip this step):
