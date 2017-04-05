@@ -46,6 +46,7 @@ lazy val root = Project(id = "root", base = file(".")).
   settings(Defaults.coreDefaultSettings ++ Seq(
     publishLocal := {},
     publish := {},
-    publishArtifact := false
+    publishArtifact := false,
+    bintrayReleaseOnPublish := false
   )
 )
