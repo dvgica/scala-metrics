@@ -5,10 +5,12 @@ package com.pagerduty.metrics
   * is just a list of no-ops.
   */
 trait NoopMetrics extends Metrics {
-  override def histogram(name: String, value: Int, tags: (String, String)*): Unit = {}
-  override def recordEvent(event: Event): Unit = {}
-  override def count(name: String, count: Int, tags: (String, String)*): Unit = {}
-  override def time[T](name: String, tags: (String, String)*)(f: => T): T = f
+  def histogram(name: String, value: Int, tags: (String, String)*): Unit = {}
+  def gauge(name: String, value: Long, tags: (String, String)*): Unit = {}
+  def gauge(name: String, value: Double, tags: (String, String)*): Unit = {}
+  def recordEvent(event: Event): Unit = {}
+  def count(name: String, count: Int, tags: (String, String)*): Unit = {}
+  def time[T](name: String, tags: (String, String)*)(f: => T): T = f
 }
 
 object NullMetrics extends Metrics with NoopMetrics

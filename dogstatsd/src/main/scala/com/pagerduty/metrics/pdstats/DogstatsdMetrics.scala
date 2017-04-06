@@ -35,16 +35,24 @@ class DogstatsdMetrics(client: StatsDClient, standardTags: (String, String)*) ex
 
   private def mkTags(tags: Seq[(String,String)]) = tagsToSeq(standardTags ++ tags)
 
-  override def histogram(name: String, value: Int, tags: (String, String)*): Unit =
+  def histogram(name: String, value: Int, tags: (String, String)*): Unit =
     client.histogram(clean(name), value, mkTags(tags):_*)
 
-  override def recordEvent(event: Event): Unit =
+  def gauge(name: String, value: Long, tags: (String, String)*): Unit = {
+    client.gauge(clean(name), value, mkTags(tags):_*)
+  }
+
+  def gauge(name: String, value: Double, tags: (String, String)*): Unit = {
+    client.gauge(clean(name), value, mkTags(tags):_*)
+  }
+
+  def recordEvent(event: Event): Unit =
     client.recordEvent(convertEvent(event))
 
-  override def count(name: String, count: Int, tags: (String, String)*): Unit =
+  def count(name: String, count: Int, tags: (String, String)*): Unit =
     client.count(clean(name), count, mkTags(tags):_*)
 
-  override def time[T](name: String, tags: (String, String)*)(f: => T): T = {
+  def time[T](name: String, tags: (String, String)*)(f: => T): T = {
     val stopwatch = Stopwatch.start()
     val tryResult = Try(f)
     val durationMillis = stopwatch.elapsed().toMillis.toInt

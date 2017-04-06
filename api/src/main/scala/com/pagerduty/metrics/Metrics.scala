@@ -40,6 +40,17 @@ trait Metrics {
   def increment(name: String, tags: (String, String)*): Unit = count(name, 1, tags: _*)
 
   /**
+   * Records the current reading of a gauge, which represents a point-in-time
+   * reading of a measurable thing.
+   *
+   * @param name Name of the gauge
+   * @param value The current gauge value
+   * @param tags Extra tags
+   */
+  def gauge(name: String, value: Long, tags: (String, String)*): Unit
+  def gauge(name: String, value: Double, tags: (String, String)*): Unit
+
+  /**
     * Record an event. Events are things that happen that - in Datadog for example -
     * you can overlay over a graph.
     *
