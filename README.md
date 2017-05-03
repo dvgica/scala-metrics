@@ -14,7 +14,8 @@ that's what we use, but we didn't want people using our libraries to get locked 
 
 - metrics-api is the generic API artifact
 - metrics-dogstatsd is the DataDog implementation of the API
-- metrics-gauge provides `GaugeReporter`, a class which samples `Gauge`s and reports the result
+- metrics-gauge provides `GaugeReporter`, a class which samples `Gauge`s and reports the result. It
+  also provides `JvmGauges`, and object which can add gauges for JVM stats to a given `GaugeReporter`.
 
 ## Installation
 
