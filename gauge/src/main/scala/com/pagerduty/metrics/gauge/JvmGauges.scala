@@ -1,6 +1,6 @@
 package com.pagerduty.metrics.gauge
 
-import java.lang.management.{ ManagementFactory, GarbageCollectorMXBean }
+import java.lang.management.{ManagementFactory, GarbageCollectorMXBean}
 import com.pagerduty.metrics.Metrics
 
 import scala.collection.JavaConversions._
@@ -34,7 +34,8 @@ object JvmGauges {
       addLongGauge(s"jvm.gc.${name}.count", () => c.getCollectionCount)
       addLongGauge(s"jvm.gc.${name}.time", () => c.getCollectionTime)
     }
-    addLongGauge("jvm.memory.finalizer-queue.count", () => ManagementFactory.getMemoryMXBean.getObjectPendingFinalizationCount)
+    addLongGauge("jvm.memory.finalizer-queue.count",
+                 () => ManagementFactory.getMemoryMXBean.getObjectPendingFinalizationCount)
   }
 
   def addThreadGauges(implicit reporter: GaugeReporter, metrics: Metrics): Unit = {
@@ -52,8 +53,10 @@ object JvmGauges {
       if (deadlocked == null) 0 else deadlocked.length
     })
 
-    val count = (state: Thread.State) => threads.getThreadInfo(threads.getAllThreadIds, 0)
-      .toSeq.filter { t => t.getThreadState == state }
+    val count = (state: Thread.State) =>
+      threads.getThreadInfo(threads.getAllThreadIds, 0).toSeq.filter { t =>
+        t.getThreadState == state
+    }
     addLongGauge("jvm.threads.new", () => count(Thread.State.NEW).size)
     addLongGauge("jvm.threads.runnable", () => count(Thread.State.RUNNABLE).size)
     addLongGauge("jvm.threads.blocked", () => count(Thread.State.BLOCKED).size)
@@ -108,18 +111,29 @@ object JvmGauges {
     def sample(): SampleType = provider()
   }
 
-  private def addLongGauge(name: String, provider: () => Long)
-                          (implicit reporter: GaugeReporter, metrics: Metrics): Unit = {
+  private def addLongGauge(
+      name: String,
+      provider: () => Long
+    )(implicit reporter: GaugeReporter,
+      metrics: Metrics
+    ): Unit = {
     addGauge(provider, Set(MetricsGaugeSampleConsumers.long(metrics, name)))
   }
 
-  private def addDoubleGauge(name: String, provider: () => Double)
-                            (implicit reporter: GaugeReporter, metrics: Metrics): Unit = {
+  private def addDoubleGauge(
+      name: String,
+      provider: () => Double
+    )(implicit reporter: GaugeReporter,
+      metrics: Metrics
+    ): Unit = {
     addGauge(provider, Set(MetricsGaugeSampleConsumers.double(metrics, name)))
   }
 
-  private def addGauge[SampleType](provider: () => SampleType, consumers: Set[(SampleType) => Unit])
-                                  (implicit reporter: GaugeReporter): Unit = {
+  private def addGauge[SampleType](
+      provider: () => SampleType,
+      consumers: Set[(SampleType) => Unit]
+    )(implicit reporter: GaugeReporter
+    ): Unit = {
     val gauge = new Gauge[SampleType] {
       def sample(): SampleType = provider()
     }

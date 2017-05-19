@@ -2,7 +2,7 @@ package com.pagerduty.metrics.gauge
 
 import org.slf4j.LoggerFactory
 
-import java.util.concurrent.{ Executors, ScheduledExecutorService, ThreadFactory, TimeUnit }
+import java.util.concurrent.{Executors, ScheduledExecutorService, ThreadFactory, TimeUnit}
 
 import scala.concurrent.duration._
 import scala.util.control.NonFatal
@@ -27,7 +27,11 @@ class GaugeReporter(threadPoolSize: Int = 1) {
     * If running the sampleConsumers takes longer than the samplePeriod, the next sample may start late,
     * but will not run concurrently.
     */
-  def addGauge[T](gauge: Gauge[T], sampleConsumers: Set[(T) => Unit], samplePeriod: FiniteDuration = 1.minute): Unit = {
+  def addGauge[T](
+      gauge: Gauge[T],
+      sampleConsumers: Set[(T) => Unit],
+      samplePeriod: FiniteDuration = 1.minute
+    ): Unit = {
     val gaugeRunnable = new Runnable {
       override def run(): Unit = {
         try {
