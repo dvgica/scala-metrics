@@ -15,12 +15,14 @@ lazy val sharedSettings = Seq(
 
 lazy val api = (project in file("api")).
   settings(sharedSettings: _*).
+  enablePlugins(ScalafmtPlugin).
   settings(
     name := "metrics-api"
   )
 
 lazy val gauge = (project in file("gauge")).
   dependsOn(api).
+  enablePlugins(ScalafmtPlugin).
   settings(sharedSettings: _*).
   settings(
     name := "metrics-gauge",
@@ -31,6 +33,7 @@ lazy val gauge = (project in file("gauge")).
 
 lazy val dogstatsd = (project in file("dogstatsd")).
   dependsOn(api).
+  enablePlugins(ScalafmtPlugin).
   settings(sharedSettings: _*).
   settings(
     name := "metrics-dogstatsd",
