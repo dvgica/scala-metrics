@@ -25,7 +25,7 @@ GIT_TAG=v$RELEASE_VER
 
 echo "Conditionally publishing release and cutting git tag..."
 test "${TRAVIS_PULL_REQUEST}" = 'false' &&
-test "${TRAVIS_JDK_VERSION}" = 'openjdk7' &&
+test "${TRAVIS_JDK_VERSION}" = 'oraclejdk8' &&
 sbt ++${TRAVIS_SCALA_VERSION} publish &&
 git tag -a $GIT_TAG -m "Release version $RELEASE_VER" &&
 git push origin $GIT_TAG

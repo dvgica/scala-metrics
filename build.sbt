@@ -1,14 +1,14 @@
 
 lazy val sharedSettings = Seq(
   organization := "com.pagerduty",
-  scalaVersion := "2.10.6",
-  crossScalaVersions := Seq("2.10.6", "2.11.7"),
+  scalaVersion := "2.11.11",
+  crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.2"),
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   bintrayOrganization := Some("pagerduty"),
   bintrayRepository := "oss-maven",
   publishMavenStyle := true,
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "2.2.6" % Test,
+    "org.scalatest" %% "scalatest" % "3.0.1" % Test,
     "org.scalamock" %% "scalamock-scalatest-support" % "3.5.0" % Test
   )
 )
