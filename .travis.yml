@@ -9,10 +9,10 @@ env:
   - secure: z0W78JRB5n3iBeMKdAdUgxWzVHqmNd0oRSd1/Z8YeSjyAxZ+xLGp3eHNSGuJ3FFCHrAoCb62GaxyHc9T4UJaSUnpZUdnDyHUgaO079ef5LgYquN2gab0EPdwg1Uah+jIw4f9rmJt8U5tDz0uj/aRyqh7GaIvL7PAPAyTx57XHovk92KwR7GVj6HojxsRaFas2o2TfJo1ofgpcvwHDjF6eCfJ7GtMN0EmUwsMzTboO2vzzo12KqLE9ekuWCx+KYv6kY5Vzeuw6HTy8DnxATKvR42o1VCNpnQgrbnDCpK+lhSYItcAssO9864zwsuavUNqkTsYtfed39K3q65Ws7RjCzExdgN/K5J2JiNnYg2omq+7VMTjK0DDztiInPf+z3pv0DfgNdri59+J3p9nv95e5JwLcHm+LWEfqdcGCa8nmITDw7ugy5lRB9nUhCh2OJsqjXGGfy9FrwVv0ZZ1RVRPnGFx0+/2KN/0E49JYlZjPugHrRQ42/IpH5Tyfdk2m1y8d8roTuYZC9Ikh/yJPMHuFoXEeieHQm1WCLuc3G6oU5SukQUGB268NK2UtzoLMbeouc/LbYjnV4yGyL12Aepwj4M21CUCYWxZ9G9wDXC+oP9VtrvOLMmpPaQEeERquPWSJuprZsGac4RcuQLYVSHV+lIktrCD5Zj3AsHyRZdEWDo=
 language: scala
 scala:
-- 2.10.4
-- 2.11.7
+- 2.10.6
+- 2.11.11
+- 2.12.2
 jdk:
-- openjdk7
 - oraclejdk8
 cache:
   directories:
