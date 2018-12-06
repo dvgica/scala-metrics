@@ -59,16 +59,16 @@ jobs:
     executor: scala_211
     steps:
       - build_and_test
+  
+  build_212:
+    executor: scala_212
+    steps:
+      - build_and_test
         
   publish_211:
     executor: scala_211
     steps:
       - publish
-
-  build_212:
-    executor: scala_212
-    steps:
-      - build_and_test
   
   publish_212:
     executor: scala_212
@@ -77,7 +77,7 @@ jobs:
 
 
 workflows:
-  version: 2
+  version: 2.1
   test_and_publish:
     jobs:
       - build_211:
