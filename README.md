@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/PagerDuty/scala-metrics.svg?branch=master)](https://travis-ci.org/PagerDuty/scala-metrics)
+[![Build Status][![CircleCI](https://circleci.com/gh/PagerDuty/scala-metrics.svg?style=svg)](https://circleci.com/gh/PagerDuty/scala-metrics)
 
 # Metrics library
 
@@ -55,4 +55,4 @@ Release
 Follow these steps to release a new version:
 - Update version.sbt in your PR
 - When the PR is approved, merge it to master, and delete the branch
-- Travis will run all tests, publish to Artifactory, and create a new version tag in Github
+- CircleCI will run all tests, publish to Artifactory, and create a new version tag in Github
