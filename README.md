@@ -1,4 +1,4 @@
-[![Build Status][![CircleCI](https://circleci.com/gh/PagerDuty/scala-metrics.svg?style=svg)](https://circleci.com/gh/PagerDuty/scala-metrics)
+[![CircleCI](https://circleci.com/gh/PagerDuty/scala-metrics.svg?style=svg)](https://circleci.com/gh/PagerDuty/scala-metrics)
 
 # Metrics library
 
