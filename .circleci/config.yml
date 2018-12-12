@@ -70,13 +70,10 @@ jobs:
     steps:
       - build_and_test
         
-  publish_211:
-    executor: scala_211
-    steps:
-      - publish
-  
-  publish_212:
-    executor: scala_212
+  publish:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
     steps:
       - publish
 
@@ -89,15 +86,9 @@ workflows:
           context: PagerDuty
       - build_212:
           context: PagerDuty
-      - publish_211:
+      - publish:
           requires:
             - build_211
-          context: PagerDuty
-          filters:
-            branches:
-              only: circleci-fix
-      - publish_212:
-          requires:
             - build_212
           context: PagerDuty
           filters:
