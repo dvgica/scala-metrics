@@ -40,4 +40,5 @@ lazy val dogstatsd = (project in file("dogstatsd")).
     )
   )
 
+publishArtifact := false
 skip in publish := true
