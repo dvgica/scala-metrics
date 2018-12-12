@@ -27,8 +27,8 @@ commands:
       - checkout
       - restore_cache:
           keys:
-          - v2-dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum ".circleci/config.yml" }}
-          - v2-dependencies-
+          - v3-dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum ".circleci/config.yml" }}
+          - v3-dependencies-
       - run:
           name: Compile
           command: sbt ++$SCALA_VERSION compile
@@ -36,7 +36,11 @@ commands:
           paths:
             - ~/.m2
             - ~/.ivy2/cache
-          key: v2-dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum ".circleci/config.yml" }}
+            - target/resolution-cache
+            - target/streams
+            - project/target/resolution-cache
+            - project/target/streams
+          key: v3-dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum ".circleci/config.yml" }}
       - run:
           name: Run unit and integration tests
           command: sbt ++$SCALA_VERSION test
@@ -48,8 +52,8 @@ commands:
       - run: ssh-add -D && echo "${GITHUB_SSH_KEY}" | base64 --decode | ssh-add -
       - restore_cache:
           keys:
-          - v2-dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum ".circleci/config.yml" }}
-          - v2-dependencies-
+          - v3-dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum ".circleci/config.yml" }}
+          - v3-dependencies-
       - run:
           name: Publish
           command: .circleci/release.sh
