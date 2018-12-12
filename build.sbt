@@ -40,13 +40,4 @@ lazy val dogstatsd = (project in file("dogstatsd")).
     )
   )
 
-// lazy val root = Project(id = "root", base = file(".")).
-//   dependsOn(api, gauge, dogstatsd).
-//   aggregate(api, gauge, dogstatsd).
-//   settings(Defaults.coreDefaultSettings ++ Seq(
-//     publishLocal := {},
-//     publish := {},
-//     publishArtifact := false,
-//     bintrayReleaseOnPublish := false
-//   )
-// )
+skip in publish := true
