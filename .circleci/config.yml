@@ -93,4 +93,4 @@ workflows:
           context: PagerDuty
           filters:
             branches:
-              only: circleci-fix
+              only: master
