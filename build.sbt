@@ -1,8 +1,6 @@
 
 lazy val sharedSettings = Seq(
   organization := "com.pagerduty",
-  scalaVersion := "2.11.11",
-  crossScalaVersions := Seq("2.11.11", "2.12.2"),
   licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html")),
   bintrayOrganization := Some("pagerduty"),
   bintrayRepository := "oss-maven",
@@ -40,13 +38,6 @@ lazy val dogstatsd = (project in file("dogstatsd")).
     )
   )
 
-// lazy val root = Project(id = "root", base = file(".")).
-//   dependsOn(api, gauge, dogstatsd).
-//   aggregate(api, gauge, dogstatsd).
-//   settings(Defaults.coreDefaultSettings ++ Seq(
-//     publishLocal := {},
-//     publish := {},
-//     publishArtifact := false,
-//     bintrayReleaseOnPublish := false
-//   )
-// )
+skip in publish := true
+scalaVersion := "2.11.11"
+crossScalaVersions := Seq("2.11.11", "2.12.2")
