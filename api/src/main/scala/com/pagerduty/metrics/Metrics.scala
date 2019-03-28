@@ -59,6 +59,15 @@ trait Metrics {
   def recordEvent(event: Event): Unit
 
   /**
+    * Record an event. Events are things that happen that - in Datadog for example -
+    * you can overlay over a graph.
+    *
+    * @param event Event to submit
+    * @param tags Extra tags
+    */
+  def recordEvent(event: Event, tags: (String, String)*): Unit
+
+  /**
     * Time the provided function as the named metric, tagging success and failure automatically.
     *
     * @param name Name of the metric

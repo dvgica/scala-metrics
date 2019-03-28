@@ -49,6 +49,9 @@ class DogstatsdMetrics(client: StatsDClient, standardTags: (String, String)*) ex
   def recordEvent(event: Event): Unit =
     client.recordEvent(convertEvent(event))
 
+  def recordEvent(event: Event, tags: (String, String)*): Unit =
+    client.recordEvent(convertEvent(event), mkTags(tags):_*)
+
   def count(name: String, count: Int, tags: (String, String)*): Unit =
     client.count(clean(name), count, mkTags(tags):_*)
 

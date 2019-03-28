@@ -9,6 +9,7 @@ trait NoopMetrics extends Metrics {
   def gauge(name: String, value: Long, tags: (String, String)*): Unit = {}
   def gauge(name: String, value: Double, tags: (String, String)*): Unit = {}
   def recordEvent(event: Event): Unit = {}
+  def recordEvent(event: Event, tags: (String, String)*): Unit = {}
   def count(name: String, count: Int, tags: (String, String)*): Unit = {}
   def time[T](name: String, tags: (String, String)*)(f: => T): T = f
 }
