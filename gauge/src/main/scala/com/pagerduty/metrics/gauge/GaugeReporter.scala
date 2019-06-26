@@ -2,7 +2,7 @@ package com.pagerduty.metrics.gauge
 
 import org.slf4j.LoggerFactory
 
-import java.util.concurrent.{ Executors, ScheduledExecutorService, ThreadFactory, TimeUnit }
+import java.util.concurrent.{Executors, ScheduledExecutorService, ThreadFactory, TimeUnit}
 
 import scala.concurrent.duration._
 import scala.util.control.NonFatal
