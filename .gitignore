@@ -32,3 +32,4 @@ bin
 .bundle
 *.iml
 src/main/resources/logback.xml
+.metals/

@@ -39,5 +39,5 @@ lazy val dogstatsd = (project in file("dogstatsd")).
   )
 
 skip in publish := true
-scalaVersion := "2.11.11"
-crossScalaVersions := Seq("2.11.11", "2.12.2")
+scalaVersion := "2.12.8"
+crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0")
