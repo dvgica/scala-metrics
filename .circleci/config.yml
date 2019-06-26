@@ -39,6 +39,9 @@ commands:
           - v3-dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum ".circleci/config.yml" }}
           - v3-dependencies-
       - run:
+          name: Check formatting with Scalafmt
+          command: cat /dev/null | sbt scalafmt::test test:scalafmt::test
+      - run:
           name: Compile
           command: sbt ++$SCALA_VERSION compile
       - save_cache:
