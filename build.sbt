@@ -6,8 +6,8 @@ lazy val sharedSettings = Seq(
   bintrayRepository := "oss-maven",
   publishMavenStyle := true,
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.0.1" % Test,
-    "org.scalamock" %% "scalamock-scalatest-support" % "3.5.0" % Test
+    "org.scalatest" %% "scalatest" % "3.0.8" % Test,
+    "org.scalamock" %% "scalamock" % "4.3.0" % Test
   )
 )
 
@@ -23,7 +23,7 @@ lazy val gauge = (project in file("gauge")).
   settings(
     name := "metrics-gauge",
     libraryDependencies ++= Seq(
-      "org.slf4j" % "slf4j-api" % "1.7.25"
+      "org.slf4j" % "slf4j-api" % "1.7.26"
     )
   )
 
@@ -33,7 +33,7 @@ lazy val dogstatsd = (project in file("dogstatsd")).
   settings(
     name := "metrics-dogstatsd",
     libraryDependencies ++= Seq(
-      "com.datadoghq" % "java-dogstatsd-client" % "2.7",
+      "com.datadoghq" % "java-dogstatsd-client" % "2.8",
       "org.mockito" % "mockito-core" % "1.10.19" % "test" // because ScalaMock doesn't work with StatsDClient
     )
   )
