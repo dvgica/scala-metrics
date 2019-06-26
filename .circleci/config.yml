@@ -40,7 +40,7 @@ commands:
           - v3-dependencies-
       - run:
           name: Check formatting with Scalafmt
-          command: cat /dev/null | sbt scalafmt::test test:scalafmt::test
+          command: cat /dev/null | sbt scalafmtCheckAll
       - run:
           name: Compile
           command: sbt ++$SCALA_VERSION compile

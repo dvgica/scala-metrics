@@ -19,7 +19,7 @@ class DogstatsdMetricsSpec extends FreeSpecLike with MockitoSugar with ScalaTest
     "times a method that returns a result" in {
       val result = 123
 
-      metrics.time(name, tags) { result } should equal (result)
+      metrics.time(name, tags) { result } should equal(result)
 
       verify(mockStatsd).histogram(
         Matchers.eq(s"${name}_msec"),
@@ -32,8 +32,8 @@ class DogstatsdMetricsSpec extends FreeSpecLike with MockitoSugar with ScalaTest
     "times a method that throws an exception" in {
       val exception = new RuntimeException("test exception")
 
-      val thrown = the [RuntimeException] thrownBy metrics.time(name, tags) { throw exception }
-      thrown should equal (exception)
+      val thrown = the[RuntimeException] thrownBy metrics.time(name, tags) { throw exception }
+      thrown should equal(exception)
 
       verify(mockStatsd).histogram(
         Matchers.eq(s"${name}_msec"),

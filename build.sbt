@@ -1,4 +1,3 @@
-
 lazy val sharedSettings = Seq(
   organization := "com.pagerduty",
   licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html")),
@@ -11,26 +10,26 @@ lazy val sharedSettings = Seq(
   )
 )
 
-lazy val api = (project in file("api")).
-  settings(sharedSettings: _*).
-  settings(
+lazy val api = (project in file("api"))
+  .settings(sharedSettings: _*)
+  .settings(
     name := "metrics-api"
   )
 
-lazy val gauge = (project in file("gauge")).
-  dependsOn(api).
-  settings(sharedSettings: _*).
-  settings(
+lazy val gauge = (project in file("gauge"))
+  .dependsOn(api)
+  .settings(sharedSettings: _*)
+  .settings(
     name := "metrics-gauge",
     libraryDependencies ++= Seq(
       "org.slf4j" % "slf4j-api" % "1.7.26"
     )
   )
 
-lazy val dogstatsd = (project in file("dogstatsd")).
-  dependsOn(api).
-  settings(sharedSettings: _*).
-  settings(
+lazy val dogstatsd = (project in file("dogstatsd"))
+  .dependsOn(api)
+  .settings(sharedSettings: _*)
+  .settings(
     name := "metrics-dogstatsd",
     libraryDependencies ++= Seq(
       "com.datadoghq" % "java-dogstatsd-client" % "2.8",
