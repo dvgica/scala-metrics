@@ -33,3 +33,4 @@ bin
 *.iml
 src/main/resources/logback.xml
 .metals/
+.bloop/

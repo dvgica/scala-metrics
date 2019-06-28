@@ -3,7 +3,7 @@ package com.pagerduty.metrics.gauge
 import java.lang.management.{ManagementFactory, GarbageCollectorMXBean}
 import com.pagerduty.metrics.Metrics
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 object JvmGauges {
   private val metricPattern = "\\s+".r
@@ -29,7 +29,7 @@ object JvmGauges {
   }
 
   def addGcGauges(implicit reporter: GaugeReporter, metrics: Metrics): Unit = {
-    ManagementFactory.getGarbageCollectorMXBeans.toSeq.foreach { c: GarbageCollectorMXBean =>
+    ManagementFactory.getGarbageCollectorMXBeans.asScala.toSeq.foreach { c: GarbageCollectorMXBean =>
       val name = metricPattern.replaceAllIn(c.getName, "-")
       addLongGauge(s"jvm.gc.${name}.count", () => c.getCollectionCount)
       addLongGauge(s"jvm.gc.${name}.time", () => c.getCollectionTime)
@@ -68,7 +68,7 @@ object JvmGauges {
   }
 
   def addMemoryPoolGauges(implicit reporter: GaugeReporter, metrics: Metrics): Unit = {
-    ManagementFactory.getMemoryPoolMXBeans.toSeq.foreach { pool =>
+    ManagementFactory.getMemoryPoolMXBeans.asScala.toSeq.foreach { pool =>
       val name = metricPattern.replaceAllIn(pool.getName, "-")
       val usage = () => pool.getUsage
       addLongGauge(s"jvm.pools.${name}.init", () => usage().getInit)
@@ -108,10 +108,6 @@ object JvmGauges {
 
   private def ratio(used: Long, committed: Long, max: Long): Double =
     used.toDouble / Math.max(committed, max)
-
-  private class ProviderGauge[SampleType](provider: () => SampleType) extends Gauge[SampleType] {
-    def sample(): SampleType = provider()
-  }
 
   private def addLongGauge(
       name: String,

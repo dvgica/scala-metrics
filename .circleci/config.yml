@@ -70,6 +70,7 @@ commands:
           name: Publish
           command: .circleci/release.sh
 
+
 jobs:
   build_211:
     executor: scala_211
@@ -86,18 +87,10 @@ jobs:
     steps:
       - build_and_test
 
-  publish_211:
-    executor: scala_211
-    steps:
-      - publish
-
-  publish_212:
-    executor: scala_212
-    steps:
-      - publish
-
-  publish_213:
-    executor: scala_213
+  publish:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
     steps:
       - publish
 
@@ -111,22 +104,10 @@ workflows:
           context: PagerDuty
       - build_213:
           context: PagerDuty
-      - publish_211:
+      - publish:
           requires:
             - build_211
-          context: PagerDuty
-          filters:
-            branches:
-              only: master
-      - publish_212:
-          requires:
             - build_212
-          context: PagerDuty
-          filters:
-            branches:
-              only: master
-      - publish_213:
-          requires:
             - build_213
           context: PagerDuty
           filters:
