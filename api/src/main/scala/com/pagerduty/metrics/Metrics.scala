@@ -40,13 +40,13 @@ trait Metrics {
   def increment(name: String, tags: (String, String)*): Unit = count(name, 1, tags: _*)
 
   /**
-   * Records the current reading of a gauge, which represents a point-in-time
-   * reading of a measurable thing.
-   *
-   * @param name Name of the gauge
-   * @param value The current gauge value
-   * @param tags Extra tags
-   */
+    * Records the current reading of a gauge, which represents a point-in-time
+    * reading of a measurable thing.
+    *
+    * @param name Name of the gauge
+    * @param value The current gauge value
+    * @param tags Extra tags
+    */
   def gauge(name: String, value: Long, tags: (String, String)*): Unit
   def gauge(name: String, value: Double, tags: (String, String)*): Unit
 
@@ -94,7 +94,12 @@ trait Metrics {
   * @param alertType The kind of event
   * @param priority The priority of the event
   */
-case class Event(title: String, text: String, timestamp: Long, alertType: Event.AlertType.Value, priority: Event.Priority.Value)
+case class Event(
+    title: String,
+    text: String,
+    timestamp: Long,
+    alertType: Event.AlertType.Value,
+    priority: Event.Priority.Value)
 
 object Event {
 
@@ -108,4 +113,3 @@ object Event {
     val ERROR, WARNING, INFO, SUCCESS = Value
   }
 }
-

@@ -8,7 +8,7 @@ executors:
     environment:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-      SCALA_VERSION: 2.11.11
+      SCALA_VERSION: 2.11.12
     
   scala_212: &scala_212
     docker:
@@ -17,7 +17,16 @@ executors:
     environment:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-      SCALA_VERSION: 2.12.2
+      SCALA_VERSION: 2.12.8
+
+  scala_213: &scala_213
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+      SCALA_VERSION: 2.13.0
 
 
 commands:
@@ -29,6 +38,9 @@ commands:
           keys:
           - v3-dependencies-{{ checksum "build.sbt" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum ".circleci/config.yml" }}
           - v3-dependencies-
+      - run:
+          name: Check formatting with Scalafmt
+          command: cat /dev/null | sbt scalafmtCheckAll
       - run:
           name: Compile
           command: sbt ++$SCALA_VERSION compile
@@ -69,6 +81,11 @@ jobs:
     executor: scala_212
     steps:
       - build_and_test
+
+  build_213:
+    executor: scala_213
+    steps:
+      - build_and_test
         
   publish:
     docker:
@@ -86,10 +103,13 @@ workflows:
           context: PagerDuty
       - build_212:
           context: PagerDuty
+      - build_213:
+          context: PagerDuty
       - publish:
           requires:
             - build_211
             - build_212
+            - build_213
           context: PagerDuty
           filters:
             branches:

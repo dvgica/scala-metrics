@@ -17,10 +17,10 @@ import scala.util.{Failure, Success, Try}
 class DogstatsdMetrics(client: StatsDClient, standardTags: (String, String)*) extends Metrics {
 
   def this(prefix: String, hostname: String, port: Int, standardTags: (String, String)*) =
-    this(new NonBlockingStatsDClient(prefix, hostname, port), standardTags:_*)
+    this(new NonBlockingStatsDClient(prefix, hostname, port), standardTags: _*)
 
   def this(prefix: String, hostname: String, standardTags: (String, String)*) =
-    this(prefix, hostname, DogstatsdMetrics.STATSD_DEFAULT_PORT, standardTags:_*)
+    this(prefix, hostname, DogstatsdMetrics.STATSD_DEFAULT_PORT, standardTags: _*)
 
   /** This should be the constructor to call - it'll talk to a default statsd on
     * localhost.
@@ -29,31 +29,31 @@ class DogstatsdMetrics(client: StatsDClient, standardTags: (String, String)*) ex
     * @return A configured instance of Metrics.
     */
   def this(prefix: String, standardTags: (String, String)*) =
-    this(prefix, DogstatsdMetrics.STATSD_DEFAULT_HOST, standardTags:_*)
+    this(prefix, DogstatsdMetrics.STATSD_DEFAULT_HOST, standardTags: _*)
 
   import DogstatsdMetrics.{convertEvent, tagsToSeq, clean}
 
-  private def mkTags(tags: Seq[(String,String)]) = tagsToSeq(standardTags ++ tags)
+  private def mkTags(tags: Seq[(String, String)]) = tagsToSeq(standardTags ++ tags)
 
   def histogram(name: String, value: Int, tags: (String, String)*): Unit =
-    client.histogram(clean(name), value, mkTags(tags):_*)
+    client.histogram(clean(name), value, mkTags(tags): _*)
 
   def gauge(name: String, value: Long, tags: (String, String)*): Unit = {
-    client.gauge(clean(name), value, mkTags(tags):_*)
+    client.gauge(clean(name), value, mkTags(tags): _*)
   }
 
   def gauge(name: String, value: Double, tags: (String, String)*): Unit = {
-    client.gauge(clean(name), value, mkTags(tags):_*)
+    client.gauge(clean(name), value, mkTags(tags): _*)
   }
 
   def recordEvent(event: Event): Unit =
     client.recordEvent(convertEvent(event))
 
   def recordEvent(event: Event, tags: (String, String)*): Unit =
-    client.recordEvent(convertEvent(event), mkTags(tags):_*)
+    client.recordEvent(convertEvent(event), mkTags(tags): _*)
 
   def count(name: String, count: Int, tags: (String, String)*): Unit =
-    client.count(clean(name), count, mkTags(tags):_*)
+    client.count(clean(name), count, mkTags(tags): _*)
 
   def time[T](name: String, tags: (String, String)*)(f: => T): T = {
     val stopwatch = Stopwatch.start()
@@ -74,7 +74,6 @@ class DogstatsdMetrics(client: StatsDClient, standardTags: (String, String)*) ex
     tryResult.get
   }
 
-
   override def stop() = client.stop()
 }
 
@@ -82,10 +81,10 @@ object DogstatsdMetrics {
   val STATSD_DEFAULT_HOST = "localhost"
   val STATSD_DEFAULT_PORT = 8125
 
-
   /** Convert a metrics-api Event to a Dogstatsd-client Event */
   def convertEvent(event: Event): com.timgroup.statsd.Event =
-    com.timgroup.statsd.Event.builder()
+    com.timgroup.statsd.Event
+      .builder()
       .withTitle(event.title)
       .withText(event.text)
       .withDate(event.timestamp)
@@ -93,10 +92,14 @@ object DogstatsdMetrics {
       .withPriority(convertPriority(event.priority))
       .build()
 
-  private def convertAlertType(alertType: com.pagerduty.metrics.Event.AlertType.Value): com.timgroup.statsd.Event.AlertType =
+  private def convertAlertType(
+      alertType: com.pagerduty.metrics.Event.AlertType.Value
+    ): com.timgroup.statsd.Event.AlertType =
     com.timgroup.statsd.Event.AlertType.valueOf(alertType.toString)
 
-  private def convertPriority(priority: com.pagerduty.metrics.Event.Priority.Value): com.timgroup.statsd.Event.Priority =
+  private def convertPriority(
+      priority: com.pagerduty.metrics.Event.Priority.Value
+    ): com.timgroup.statsd.Event.Priority =
     com.timgroup.statsd.Event.Priority.valueOf(priority.toString)
 
   /** Convert tags in the format the Java API wants it. Note that we strip stuff that Dogstatsd doesn't
