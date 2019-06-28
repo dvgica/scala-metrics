@@ -9,7 +9,7 @@ executors:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
       SCALA_VERSION: 2.11.12
-    
+
   scala_212: &scala_212
     docker:
       - image: circleci/openjdk:8-jdk
@@ -56,7 +56,7 @@ commands:
       - run:
           name: Run unit and integration tests
           command: sbt ++$SCALA_VERSION test
-  
+
   publish:
     description: "publish"
     steps:
@@ -68,15 +68,14 @@ commands:
           - v3-dependencies-
       - run:
           name: Publish
-          command: .circleci/release.sh $SCALA_VERSION
-
+          command: .circleci/release.sh
 
 jobs:
   build_211:
     executor: scala_211
     steps:
       - build_and_test
-  
+
   build_212:
     executor: scala_212
     steps:
@@ -86,14 +85,21 @@ jobs:
     executor: scala_213
     steps:
       - build_and_test
-        
-  publish:
-    docker:
-      - image: circleci/openjdk:8-jdk
-    working_directory: ~/repo
+
+  publish_211:
+    executor: scala_211
     steps:
       - publish
 
+  publish_212:
+    executor: scala_212
+    steps:
+      - publish
+
+  publish_213:
+    executor: scala_213
+    steps:
+      - publish
 
 workflows:
   version: 2.1
@@ -105,10 +111,22 @@ workflows:
           context: PagerDuty
       - build_213:
           context: PagerDuty
-      - publish:
+      - publish_211:
           requires:
             - build_211
+          context: PagerDuty
+          filters:
+            branches:
+              only: master
+      - publish_212:
+          requires:
             - build_212
+          context: PagerDuty
+          filters:
+            branches:
+              only: master
+      - publish_213:
+          requires:
             - build_213
           context: PagerDuty
           filters:
