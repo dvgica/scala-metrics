@@ -1,7 +1,7 @@
 package com.pagerduty.metrics.pdstats
 
 import com.timgroup.statsd.StatsDClient
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import org.scalatest.{FreeSpecLike, Matchers => ScalaTestMatchers}
 import org.mockito.Mockito._
 import org.mockito.Matchers
